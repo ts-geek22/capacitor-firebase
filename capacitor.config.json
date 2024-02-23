@@ -1,11 +1,15 @@
 {
-  "appId": "com.example.app",
+  "appId": "com.demo.application",
   "appName": "capacitor-app",
   "bundledWebRuntime": false,
   "webDir": "dist",
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 0
+    },
+    "FirebaseAuthentication": {
+      "skipNativeAuth": false,
+      "providers": ["google.com"]
     }
   }
 }

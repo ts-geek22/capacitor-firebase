@@ -1,5 +1,6 @@
 import { Browser } from "@capacitor/browser";
 import { SplashScreen } from "@capacitor/splash-screen";
+import { FirebaseService } from "./firebase/helpers";
 
 window.customElements.define(
   "capacitor-welcome",
@@ -25,6 +26,12 @@ window.customElements.define(
         value="https://capacitorjs.com/"
       />
       <button id="open-browser">Open Browser</button>
+
+      <p>
+        <button class="button" id="google-signup">Google Signup</button>
+      </p>
+
+      <p id="user"></p>
     </main>
     `;
     }
@@ -41,6 +48,22 @@ window.customElements.define(
           }
           await Browser.open({ url: input });
         });
+
+      self.shadowRoot
+        .querySelector("#google-signup")
+        .addEventListener("click", async function (e) {
+          try {
+            const firebaseService = FirebaseService.getInstance();
+
+            const user = await firebaseService.signInWithGoogle();
+
+            self.shadowRoot.querySelector("#user").innerHTML = !user
+              ? "Failed to register"
+              : JSON.stringify(user);
+          } catch (e) {
+            console.warn("User cancelled", e);
+          }
+        });
     }
-  },
+  }
 );
